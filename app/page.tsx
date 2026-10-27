@@ -1,69 +1,362 @@
-import Image from "next/image";
+import CategorySection from "@/components/CategorySection";
+import SubscribeNotice from "@/components/SubscribeNotice";
 
-export default function Home() {
+export default function HomePage() {
+  // Database/API बाट आउने नमुना डाटा
+  const liveNews = [
+    {
+      id: 1,
+      title: "संसद भवनबाट प्रधानमन्त्रीको विशेष सम्बोधन (लाइभ)",
+      slug: "pm-parliament-address-live",
+      imageUrl: "/images/image1.jpg",
+      videoUrl: "https://www.youtube.com/watch?v=iRD-NkJfrg0",
+    },
+    {
+      id: 2,
+      title:
+        "Today news nepali news | aaja ka mukhya samachar, nepali samachar live",
+      slug: "pm-parliament-address-live",
+      imageUrl: "/images/image2.jpg",
+      videoUrl: "https://www.youtube.com/watch?v=XJThrdbfaJY",
+    },
+    {
+      id: 3,
+      title: "NEPSE LIVE - AI CHART OBSERVE TECHNICAL ANALYSIS #nepselivetoday",
+      slug: "pm-parliament-address-live",
+      imageUrl: "/images/image4.jpg",
+      videoUrl: "https://www.youtube.com/watch?v=n0YHcpm-sF8",
+    },
+  ];
+
+  const politicsNews = [
+    {
+      id: 1,
+      title: "‘विपद् प्रभावित क्षेत्रमा तत्काल बेलीब्रिज र राहत प्याकेजको माग’",
+      slug: "pm-parliament-address-live",
+      imageUrl: "/images/image1.jpg",
+    },
+    {
+      id: 2,
+      title: "नेपालको राजनीतिक स्थिति: नयाँ सरकारको निर्माणको प्रक्रिया",
+      slug: "pm-parliament-address-live",
+      imageUrl: "/images/image3.jpg",
+    },
+    {
+      id: 3,
+      title: "संसद भवनबाट प्रधानमन्त्रीको विशेष सम्बोधन (लाइभ)",
+      slug: "pm-parliament-address-live",
+      imageUrl: "/images/image5.jpg",
+    },
+    {
+      id: 201,
+      title:
+        "शरद् ऋतु २०२६ को फ्यासन रिपोर्ट: शैलीबद्ध पुरुषहरूका लागि विशेष पोशाक ट्रेन्ड",
+      slug: "fall-2026-fashion-report",
+      imageUrl: "/images/image1.jpg",
+    },
+    {
+      id: 202,
+      title:
+        "पेरिस रनवेमा रातो कपाल र हिराको मुकुटमा ऐश्वर्या रायको सानदार प्रस्तुति",
+      slug: "aishwarya-rai-paris-runway",
+      imageUrl: "/images/image2.jpg",
+    },
+  ];
+
+  const opinionNews = [
+    {
+      id: 1,
+      title: "‘विपद् प्रभावित क्षेत्रमा तत्काल बेलीब्रिज र राहत प्याकेजको माग’",
+      slug: "pm-parliament-address-live",
+      imageUrl: "/images/image1.jpg",
+    },
+    {
+      id: 2,
+      title: "नेपालको राजनीतिक स्थिति: नयाँ सरकारको निर्माणको प्रक्रिया",
+      slug: "pm-parliament-address-live",
+      imageUrl: "/images/image3.jpg",
+    },
+    {
+      id: 3,
+      title: "संसद भवनबाट प्रधानमन्त्रीको विशेष सम्बोधन (लाइभ)",
+      slug: "pm-parliament-address-live",
+      imageUrl: "/images/image5.jpg",
+    },
+    {
+      id: 201,
+      title:
+        "शरद् ऋतु २०२६ को फ्यासन रिपोर्ट: शैलीबद्ध पुरुषहरूका लागि विशेष पोशाक ट्रेन्ड",
+      slug: "fall-2026-fashion-report",
+      imageUrl: "/images/image1.jpg",
+    },
+  ];
+
+  const photoNews = [
+    {
+      id: 1,
+      title: "‘विपद् प्रभावित क्षेत्रमा तत्काल बेलीब्रिज र राहत प्याकेजको माग’",
+      slug: "pm-parliament-address-live",
+      imageUrl: "/images/image1.jpg",
+    },
+    {
+      id: 2,
+      title: "नेपालको राजनीतिक स्थिति: नयाँ सरकारको निर्माणको प्रक्रिया",
+      slug: "pm-parliament-address-live",
+      imageUrl: "/images/image3.jpg",
+    },
+    {
+      id: 3,
+      title: "संसद भवनबाट प्रधानमन्त्रीको विशेष सम्बोधन (लाइभ)",
+      slug: "pm-parliament-address-live",
+      imageUrl: "/images/image5.jpg",
+    },
+    {
+      id: 201,
+      title:
+        "शरद् ऋतु २०२६ को फ्यासन रिपोर्ट: शैलीबद्ध पुरुषहरूका लागि विशेष पोशाक ट्रेन्ड",
+      slug: "fall-2026-fashion-report",
+      imageUrl: "/images/image1.jpg",
+    },
+    {
+      id: 8,
+      title: "नेपालको राजनीतिक स्थिति: नयाँ सरकारको निर्माणको प्रक्रिया",
+      slug: "pm-parliament-address-live",
+      imageUrl: "/images/image3.jpg",
+    },
+  ];
+
+  const economyNews = [
+    {
+      id: 101,
+      title: "शेयर बजारमा यो साता लगातार दोहोरो अङ्कको सुधार",
+      slug: "share-market-growth",
+      imageUrl: "/images/image1.jpg",
+    },
+    {
+      id: 102,
+      title: "तेस्रो त्रैमासिकमा निर्यात व्यापारमा १२ प्रतिशतले वृद्धि",
+      slug: "export-trade-growth",
+      imageUrl: "/images/image2.jpg",
+    },
+    {
+      id: 103,
+      title: "नेपाल राष्ट्र बैंकद्वारा विदेशी मुद्राको विनिमय दर स्थिर",
+      slug: "nrb-forex-rates",
+      imageUrl: "/images/image3.jpg",
+    },
+    {
+      id: 104,
+      title: "स्थानीय कृषि स्टार्टअपले प्राप्त गर्यो वैदेशिक लगानी",
+      slug: "agri-startup-funding",
+      imageUrl: "/images/image4.jpg",
+    },
+  ];
+
+  const lifestyleNews = [
+    {
+      id: 201,
+      title:
+        "शरद् ऋतु २०२६ को फ्यासन रिपोर्ट: शैलीबद्ध पुरुषहरूका लागि विशेष पोशाक ट्रेन्ड",
+      slug: "fall-2026-fashion-report",
+      imageUrl: "/images/image1.jpg",
+    },
+    {
+      id: 202,
+      title:
+        "पेरिस रनवेमा रातो कपाल र हिराको मुकुटमा ऐश्वर्या रायको सानदार प्रस्तुति",
+      slug: "aishwarya-rai-paris-runway",
+      imageUrl: "/images/image2.jpg",
+    },
+    {
+      id: 203,
+      title: "लेयरिङको शैली: जिलेट, भेस्ट र वेस्टकोट—कुन पहिरन छनोट गर्ने?",
+      slug: "battle-of-layers-guide",
+      imageUrl: "/images/image3.jpg",
+    },
+    {
+      id: 204,
+      title: "आधुनिक पुरुषहरूका लागि विवाहको औँठी छनोट गर्ने नयाँ तरिका",
+      slug: "modern-wedding-bands",
+      imageUrl: "/images/image4.jpg",
+    },
+    {
+      id: 205,
+      title: "जेन-जी (Gen Z) युवाहरू कस्ता घडीहरू मन पराउँछन्?",
+      slug: "gen-z-watch-choices",
+      imageUrl: "/images/image5.jpg",
+    },
+  ];
+
+  const entertainmentNews = [
+    {
+      id: 201,
+      title:
+        "शरद् ऋतु २०२६ को फ्यासन रिपोर्ट: शैलीबद्ध पुरुषहरूका लागि विशेष पोशाक ट्रेन्ड",
+      slug: "fall-2026-fashion-report",
+      imageUrl: "/images/image1.jpg",
+    },
+    {
+      id: 202,
+      title:
+        "पेरिस रनवेमा रातो कपाल र हिराको मुकुटमा ऐश्वर्या रायको सानदार प्रस्तुति",
+      slug: "aishwarya-rai-paris-runway",
+      imageUrl: "/images/image2.jpg",
+    },
+    {
+      id: 203,
+      title: "लेयरिङको शैली: जिलेट, भेस्ट र वेस्टकोट—कुन पहिरन छनोट गर्ने?",
+      slug: "battle-of-layers-guide",
+      imageUrl: "/images/image3.jpg",
+    },
+    {
+      id: 204,
+      title: "आधुनिक पुरुषहरूका लागि विवाहको औँठी छनोट गर्ने नयाँ तरिका",
+      slug: "modern-wedding-bands",
+      imageUrl: "/images/image4.jpg",
+    },
+    {
+      id: 403,
+      title: "लेयरिङको शैली: जिलेट, भेस्ट र वेस्टकोट—कुन पहिरन छनोट गर्ने?",
+      slug: "battle-of-layers-guide",
+      imageUrl: "/images/image3.jpg",
+    },
+    {
+      id: 604,
+      title: "आधुनिक पुरुषहरूका लागि विवाहको औँठी छनोट गर्ने नयाँ तरिका",
+      slug: "modern-wedding-bands",
+      imageUrl: "/images/image4.jpg",
+    },
+  ];
+
+  const sportNews = [
+    {
+      id: 201,
+      title:
+        "शरद् ऋतु २०२६ को फ्यासन रिपोर्ट: शैलीबद्ध पुरुषहरूका लागि विशेष पोशाक ट्रेन्ड",
+      slug: "fall-2026-fashion-report",
+      imageUrl: "/images/image1.jpg",
+    },
+    {
+      id: 202,
+      title:
+        "पेरिस रनवेमा रातो कपाल र हिराको मुकुटमा ऐश्वर्या रायको सानदार प्रस्तुति",
+      slug: "aishwarya-rai-paris-runway",
+      imageUrl: "/images/image2.jpg",
+    },
+    {
+      id: 203,
+      title: "लेयरिङको शैली: जिलेट, भेस्ट र वेस्टकोट—कुन पहिरन छनोट गर्ने?",
+      slug: "battle-of-layers-guide",
+      imageUrl: "/images/image3.jpg",
+    },
+    {
+      id: 204,
+      title: "आधुनिक पुरुषहरूका लागि विवाहको औँठी छनोट गर्ने नयाँ तरिका",
+      slug: "modern-wedding-bands",
+      imageUrl: "/images/image4.jpg",
+    },
+  ];
+
+  const videoNews = [
+    {
+      id: 301,
+      title: "काठमाडौँ उपत्यकामा सार्वजनिक यातायातको नयाँ व्यवस्था लागू",
+      slug: "ktm-traffic-system-update",
+      imageUrl: "/images/image1.jpg",
+      videoUrl: "https://www.youtube.com/watch?v=iRD-NkJfrg0",
+    },
+    {
+      id: 302,
+      title: "निजी लगानीकर्ताका लागि ऊर्जा क्षेत्रमा नयाँ अवसरहरू",
+      slug: "energy-investment-opportunities",
+      imageUrl: "/images/image2.jpg",
+      videoUrl: "https://www.youtube.com/watch?v=4rRk-jvgeJ4",
+    },
+    {
+      id: 303,
+      title: "विश्वकप छनोट खेलमा राष्ट्रिय टोलीको विशेष तयारी",
+      slug: "world-cup-qualifiers-prep",
+      imageUrl: "/images/image3.jpg",
+      videoUrl: "https://www.youtube.com/watch?v=5hmZ7G3jFBg",
+    },
+    {
+      id: 304,
+      title: "पर्यटन प्रवर्द्धनका लागि पोखरामा अन्तर्राष्ट्रिय महोत्सव",
+      slug: "pokhara-tourism-festival",
+      imageUrl: "/images/image4.jpg",
+      videoUrl: "https://www.youtube.com/watch?v=5hmZ7G3jFBg",
+    },
+  ];
+
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert h-5 w-[100px]"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the{" "}
-            <code className="rounded bg-black/[.06] px-1.5 py-0.5 font-mono text-[0.9em] dark:bg-white/[.08]">
-              page.tsx
-            </code>{" "}
-            file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert h-[14px] w-4"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={14}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+    <main className="">
+      {/* Live Broadcast Category */}
+      <CategorySection
+        title="प्रत्यक्ष प्रशारण"
+        categorySlug="live"
+        articles={liveNews}
+        layout="live"
+      />
+      {/* Politics Category */}
+      <CategorySection
+        title="राजनीति"
+        categorySlug="politics"
+        articles={politicsNews}
+        layout="layout-1"
+      />
+      {/* Opinion Category */}
+      <CategorySection
+        title="विचार"
+        categorySlug="opinion"
+        articles={opinionNews}
+        layout="bichar"
+      />
+      {/* Photo Feature Category */}
+      <CategorySection
+        title="फोटो फीचर"
+        categorySlug="photo"
+        articles={photoNews}
+        layout="layout-1"
+      />
+      {/* Economy Category */}
+      <CategorySection
+        title="अर्थतन्त्र"
+        categorySlug="economy"
+        articles={economyNews}
+        layout="layout-1"
+      />
+      {/* Video Category */}
+      <CategorySection
+        title="भिडियो"
+        categorySlug="video"
+        articles={videoNews}
+      />
+      {/* Entertainment Category */}
+      <CategorySection
+        title="मनोरंजन"
+        categorySlug="entertainment"
+        articles={entertainmentNews}
+        layout="layout-1"
+        limit={4}
+      />
+      {/* Lifestyle Category */}
+      <CategorySection
+        title="जीवनशैली"
+        categorySlug="lifestyle"
+        articles={lifestyleNews}
+        layout="layout-1"
+      />
+      {/* Sports Category */}
+      <CategorySection
+        title="खेलकुद"
+        categorySlug="sports"
+        articles={sportNews}
+        layout="layout-1"
+      />
+
+      <div className="max-w-3xl mx-auto">
+        <SubscribeNotice />
+      </div>
+    </main>
   );
 }
