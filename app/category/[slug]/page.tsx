@@ -79,8 +79,8 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
         {/* Category Title Heading */}
         <div className="border-b-2 border-[#0C439E] pb-3 mb-8 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <span className="w-1 h-8 bg-[#0C439E] inline-block"></span>
-            <h1 className="text-3xl md:text-4xl font-bold font-mukta text-[#0C439E] tracking-wide uppercase">
+            <span className="w-1 h-6 bg-[#0C439E] inline-block -mt-2"></span>
+            <h1 className="text-[22px] md:text-[26px] font-semibold  text-[#0C439E] tracking-wide uppercase">
               {title}
             </h1>
           </div>
@@ -116,9 +116,9 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
                 </div>
 
                 {/* Card Footer */}
-                <div className="pt-3 border-t border-slate-100 flex items-center text-xs font-bold text-slate-600 font-mukta mt-auto">
+                <div className="pt-3 border-t border-slate-100 flex items-center text-sm font-bold text-slate-600 font-mukta mt-auto">
                   <span className="flex items-center gap-1">
-                    <Clock className="w-3.5 h-3.5 text-slate-600" />
+                    <Clock className="w-4 h-4 text-slate-600" />
                     {post.date}
                   </span>
                 </div>

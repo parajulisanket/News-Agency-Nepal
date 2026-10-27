@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Mukta, Khand } from "next/font/google";
+import { Mukta, Khand, Anek_Devanagari } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
 import FlashNewsMarquee from "@/components/FlashNewsMarquee";
@@ -21,6 +21,14 @@ const khand = Khand({
   display: "swap",
 });
 
+// Load Anek Devanagari
+const anekDevanagari = Anek_Devanagari({
+  subsets: ["devanagari", "latin"],
+  weight: ["300", "400", "500", "600", "700", "800"],
+  variable: "--font-anek",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   title: "News Agency Nepal - NAN",
   description: "Nepal First Independent News Agency",
@@ -32,9 +40,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="ne" className={`${mukta.variable} ${khand.variable}`}>
+    <html
+      lang="ne"
+      className={`${mukta.variable} ${khand.variable} ${anekDevanagari.variable}`}
+    >
       <body
-        className={`${mukta.variable} ${khand.variable} font-mukta min-h-screen flex flex-col bg-slate-50 text-slate-900 antialiased`}
+        className={`${mukta.variable} ${khand.variable} ${anekDevanagari.variable} font-mukta min-h-screen flex flex-col bg-slate-50 text-slate-900 antialiased`}
       >
         <Header />
         <FlashNewsMarquee />

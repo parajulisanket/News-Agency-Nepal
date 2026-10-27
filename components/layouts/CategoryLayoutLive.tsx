@@ -64,7 +64,7 @@ export default function CategoryLayoutLive({
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
         <Link
           href={`/posts/${activeLive.id}`}
-          className="text-2xl md:text-4xl font-bold font-mukta text-slate-900 hover:text-[#0C439E] transition-colors line-clamp-2 leading-tight flex-1"
+          className="text-2xl md:text-4xl font-bold font-an text-slate-900 hover:text-[#0C439E] transition-colors line-clamp-2 leading-tight flex-1"
         >
           {activeLive.title}
         </Link>

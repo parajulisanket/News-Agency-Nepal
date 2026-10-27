@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
+import NepaliDate from "nepali-date-converter";
 import { useRouter } from "next/navigation";
 import {
   Search,
@@ -22,8 +23,42 @@ import {
   CircleDollarSign,
   CloudSun,
   ArrowLeftRight,
-  Store,
 } from "lucide-react";
+
+const NEPALI_MONTHS = [
+  "बैशाख",
+  "जेठ",
+  "असार",
+  "श्रावण",
+  "भदौ",
+  "असोज",
+  "कार्तिक",
+  "मंसिर",
+  "पौष",
+  "माघ",
+  "फाल्गुन",
+  "चैत्र",
+];
+
+const NEPALI_DAYS = [
+  "आइतबार",
+  "सोमबार",
+  "मंगलबार",
+  "बुधबार",
+  "बिहीबार",
+  "शुक्रबार",
+  "शनिबार",
+];
+
+const toNepaliDigits = (n: number | string) =>
+  String(n).replace(/\d/g, (d) => "०१२३४५६७८९"[Number(d)]);
+
+function getNepaliDateString(date: Date = new Date()) {
+  const bs = new NepaliDate(date);
+  const day = NEPALI_DAYS[date.getDay()];
+  const month = NEPALI_MONTHS[bs.getMonth()]; // month is 0-indexed
+  return `${day}, ${toNepaliDigits(bs.getDate())} ${month} ${toNepaliDigits(bs.getYear())}`;
+}
 
 export default function Header() {
   const router = useRouter();
@@ -38,30 +73,33 @@ export default function Header() {
 
   useEffect(() => {
     setMounted(true);
-    const today = new Date();
-    const options: Intl.DateTimeFormatOptions = {
-      weekday: "long",
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    };
-    const nepaliDateStr = new Intl.DateTimeFormat("ne-NP", options).format(
-      today,
-    );
-    setFormattedDate(nepaliDateStr);
+    setFormattedDate(getNepaliDateString());
   }, []);
 
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 110) {
-        setIsSticky(true);
-      } else {
-        setIsSticky(false);
-      }
+      setIsSticky(window.scrollY > 110);
     };
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  // Stop the page from scrolling behind the open drawer
+  useEffect(() => {
+    document.body.style.overflow = sidebarOpen ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [sidebarOpen]);
+
+  // Close drawer with the Escape key
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setSidebarOpen(false);
+    };
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
   }, []);
 
   // Handle Search Submission
@@ -139,17 +177,21 @@ export default function Header() {
                     src="/logo.png"
                     alt="News Agency Nepal Logo"
                     fill
+                    sizes="(max-width: 640px) 192px, (max-width: 768px) 256px, 320px"
                     className="object-contain object-left"
                     priority
                   />
                 </div>
               </Link>
-              <div className="text-[#E9C325] text-xs sm:text-base font-semibold tracking-wide pl-1">
-                {mounted ? formattedDate : "सोमबार, १९ असोज २०८३"}
+              <div
+                translate="no"
+                className="notranslate text-[#E9C325] text-xs sm:text-base font-semibold tracking-wide pl-1 min-h-[1.5rem]"
+              >
+                {mounted ? formattedDate : ""}
               </div>
             </div>
 
-            {/* Right Section: Login/Register on top, Utility Icons positioned underneath */}
+            {/* Right Section: Login/Register on top, Utility Icons underneath */}
             <div className="flex flex-col items-end gap-2.5">
               {/* Login & Register Buttons */}
               <div className="flex items-center gap-2 sm:gap-3">
@@ -173,7 +215,7 @@ export default function Header() {
                 </a>
               </div>
 
-              {/* Square Utility Icon Buttons (Placed underneath) */}
+              {/* Square Utility Icon Buttons */}
               <div className="hidden lg:flex items-center gap-2">
                 {utilityItems.map((item, index) => (
                   <Link
@@ -208,6 +250,7 @@ export default function Header() {
                 onClick={() => setSidebarOpen(true)}
                 className="p-1.5 text-slate-700 hover:text-[#0C439E] rounded-md transition shrink-0"
                 title="Open Navigation Menu"
+                aria-label="Open Navigation Menu"
               >
                 <Menu className="w-5 h-5" />
               </button>
@@ -285,6 +328,7 @@ export default function Header() {
               onClick={() => setSearchOpen(!searchOpen)}
               className="p-2 text-slate-700 hover:text-[#0C439E] rounded-md shrink-0 ml-2 transition"
               title="Search"
+              aria-label="Search"
             >
               <Search className="w-5 h-5 text-[#0C439E]" />
             </button>
@@ -318,148 +362,162 @@ export default function Header() {
         )}
       </header>
 
-      {/* Slide-over Side Navigation Drawer */}
-      {sidebarOpen && (
-        <div className="fixed inset-0 z-[10000] flex">
-          <div
-            className="fixed inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity"
-            onClick={() => setSidebarOpen(false)}
-          />
+      {/* Slide-over Side Navigation Drawer (always rendered so it can animate) */}
+      <div
+        className={`fixed inset-0 z-[10000] flex ${
+          sidebarOpen ? "pointer-events-auto" : "pointer-events-none"
+        }`}
+        aria-hidden={!sidebarOpen}
+        inert={!sidebarOpen}
+      >
+        {/* Backdrop: fades in/out */}
+        <div
+          className={`fixed inset-0 bg-slate-900/60 backdrop-blur-sm transition-opacity duration-500 ease-in-out ${
+            sidebarOpen ? "opacity-100" : "opacity-0"
+          }`}
+          onClick={() => setSidebarOpen(false)}
+        />
 
-          <div className="relative w-full max-w-xs bg-white h-full shadow-2xl flex flex-col z-10 overflow-y-auto">
-            <div className="bg-[#0C439E] text-white p-4 flex justify-between items-center border-b-4 border-[#66060C]">
-              <div className="relative h-9 w-40">
-                <Image
-                  src="/logo.png"
-                  alt="News Agency Nepal Logo"
-                  fill
-                  className="object-contain object-left"
-                />
-              </div>
-              <button
-                onClick={() => setSidebarOpen(false)}
-                className="p-1 hover:bg-white/20 rounded transition text-white"
-              >
-                <X className="w-6 h-6" />
-              </button>
+        {/* Drawer: slides in from the left */}
+        <div
+          className={`relative w-full max-w-xs bg-white h-full shadow-2xl flex flex-col z-10 overflow-y-auto transform transition-transform duration-500 ease-in-out ${
+            sidebarOpen ? "translate-x-0" : "-translate-x-full"
+          }`}
+        >
+          <div className="bg-[#0C439E] text-white p-4 flex justify-between items-center border-b-4 border-[#66060C]">
+            <div className="relative h-9 w-40">
+              <Image
+                src="/logo.png"
+                alt="News Agency Nepal Logo"
+                fill
+                sizes="160px"
+                className="object-contain object-left"
+              />
             </div>
+            <button
+              onClick={() => setSidebarOpen(false)}
+              className="p-1 hover:bg-white/20 rounded transition text-white"
+              aria-label="Close Navigation Menu"
+            >
+              <X className="w-6 h-6" />
+            </button>
+          </div>
 
-            <div className="p-3 bg-slate-100 border-b border-slate-200 flex gap-2 font-khand">
-              <a
-                href="https://my.newsagencynepal.com/login"
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => setSidebarOpen(false)}
-                className="flex-1 text-center bg-[#0C439E] text-white font-bold text-sm py-2 rounded shadow hover:bg-blue-900 transition flex items-center justify-center gap-1"
-              >
-                <User className="w-3.5 h-3.5" /> लग इन
-              </a>
-              <a
-                href="https://my.newsagencynepal.com/"
-                target="_blank"
-                rel="noopener noreferrer"
-                onClick={() => setSidebarOpen(false)}
-                className="flex-1 text-center bg-[#66060C] text-white font-bold text-sm py-2 rounded shadow hover:bg-red-900 transition flex items-center justify-center gap-1"
-              >
-                <UserPlus className="w-3.5 h-3.5 text-amber-300" /> रजिस्टर
-              </a>
-            </div>
+          <div className="p-3 bg-slate-100 border-b border-slate-200 flex gap-2 font-khand">
+            <a
+              href="https://my.newsagencynepal.com/login"
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => setSidebarOpen(false)}
+              className="flex-1 text-center bg-[#0C439E] text-white font-bold text-sm py-2 rounded shadow hover:bg-blue-900 transition flex items-center justify-center gap-1"
+            >
+              <User className="w-3.5 h-3.5" /> लग इन
+            </a>
+            <a
+              href="https://my.newsagencynepal.com/"
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => setSidebarOpen(false)}
+              className="flex-1 text-center bg-[#66060C] text-white font-bold text-sm py-2 rounded shadow hover:bg-red-900 transition flex items-center justify-center gap-1"
+            >
+              <UserPlus className="w-3.5 h-3.5 text-amber-300" /> रजिस्टर
+            </a>
+          </div>
 
-            <div className="p-4 space-y-4 flex-grow">
-              {/* Utility Icons in Mobile Drawer */}
-              <div>
-                <h3 className="text-xs font-bold uppercase text-slate-400 tracking-wider mb-2 font-khand">
-                  उपयोगिता (Utilities)
-                </h3>
-                <div className="flex items-center gap-2 overflow-x-auto pb-1">
-                  {utilityItems.map((item, index) => (
-                    <Link
-                      key={index}
-                      href={item.href}
-                      title={item.title}
-                      onClick={() => setSidebarOpen(false)}
-                      className="w-10 h-10 bg-slate-50 border border-slate-200 rounded-lg flex items-center justify-center shrink-0 hover:bg-blue-50 transition"
-                    >
-                      {item.icon}
-                    </Link>
-                  ))}
-                </div>
-              </div>
-
-              <hr className="border-slate-200" />
-
-              <div>
-                <h3 className="text-xs font-bold uppercase text-slate-400 tracking-wider mb-2 font-khand">
-                  समाचार विधाहरू
-                </h3>
-                <ul className="space-y-1">
-                  {categories.map((cat) => (
-                    <li key={cat.slug}>
-                      <Link
-                        href={`/category/${cat.slug}`}
-                        onClick={() => setSidebarOpen(false)}
-                        className="flex items-center justify-between px-3 py-1.5 text-base font-semibold text-slate-700 hover:text-[#0C439E] rounded-md transition font-khand"
-                      >
-                        <span>{cat.name}</span>
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-
-              <hr className="border-slate-200" />
-
-              <div>
-                <h3 className="text-xs font-bold uppercase text-slate-400 tracking-wider mb-2 font-khand">
-                  एजेन्सी सेवाहरू
-                </h3>
-                <ul className="space-y-1.5 text-xs text-slate-700 font-mukta">
-                  <li>
-                    <Link
-                      href="/category/photo"
-                      onClick={() => setSidebarOpen(false)}
-                      className="flex items-center gap-2 p-2 hover:bg-slate-100 rounded font-medium"
-                    >
-                      <ImageIcon className="w-4 h-4 text-[#0C439E]" /> फोटो सेवा
-                      (Photo Feed)
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="/category/video"
-                      onClick={() => setSidebarOpen(false)}
-                      className="flex items-center gap-2 p-2 hover:bg-slate-100 rounded font-medium"
-                    >
-                      <Video className="w-4 h-4 text-[#0C439E]" /> भिडियो सेवा
-                      (Video Bulletin)
-                    </Link>
-                  </li>
-                  <li>
-                    <Link
-                      href="/category/documents"
-                      onClick={() => setSidebarOpen(false)}
-                      className="flex items-center gap-2 p-2 hover:bg-slate-100 rounded font-medium"
-                    >
-                      <FileText className="w-4 h-4 text-[#0C439E]" /> आधिकारिक
-                      दस्तावेज
-                    </Link>
-                  </li>
-                </ul>
+          <div className="p-4 space-y-4 flex-grow">
+            {/* Utility Icons in Mobile Drawer */}
+            <div>
+              <h3 className="text-xs font-bold uppercase text-slate-400 tracking-wider mb-2 font-khand">
+                उपयोगिता (Utilities)
+              </h3>
+              <div className="flex items-center gap-2 overflow-x-auto pb-1">
+                {utilityItems.map((item, index) => (
+                  <Link
+                    key={index}
+                    href={item.href}
+                    title={item.title}
+                    onClick={() => setSidebarOpen(false)}
+                    className="w-10 h-10 bg-slate-50 border border-slate-200 rounded-lg flex items-center justify-center shrink-0 hover:bg-blue-50 transition"
+                  >
+                    {item.icon}
+                  </Link>
+                ))}
               </div>
             </div>
 
-            <div className="p-4 bg-slate-900 text-slate-300 text-xs space-y-2 font-mukta">
-              <div className="flex items-center gap-2 text-slate-400">
-                <Phone className="w-3.5 h-3.5 text-amber-400" /> +९७७-०१-XXXXXXX
-              </div>
-              <div className="flex items-center gap-2 text-slate-400">
-                <Mail className="w-3.5 h-3.5 text-amber-400" />{" "}
-                news@newsagencynepal.com
-              </div>
+            <hr className="border-slate-200" />
+
+            <div>
+              <h3 className="text-xs font-bold uppercase text-slate-400 tracking-wider mb-2 font-khand">
+                समाचार विधाहरू
+              </h3>
+              <ul className="space-y-1">
+                {categories.map((cat) => (
+                  <li key={cat.slug}>
+                    <Link
+                      href={`/category/${cat.slug}`}
+                      onClick={() => setSidebarOpen(false)}
+                      className="flex items-center justify-between px-3 py-1.5 text-base font-semibold text-slate-700 hover:text-[#0C439E] rounded-md transition font-khand"
+                    >
+                      <span>{cat.name}</span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <hr className="border-slate-200" />
+
+            <div>
+              <h3 className="text-xs font-bold uppercase text-slate-400 tracking-wider mb-2 font-khand">
+                एजेन्सी सेवाहरू
+              </h3>
+              <ul className="space-y-1.5 text-xs text-slate-700 font-mukta">
+                <li>
+                  <Link
+                    href="/category/photo"
+                    onClick={() => setSidebarOpen(false)}
+                    className="flex items-center gap-2 p-2 hover:bg-slate-100 rounded font-medium"
+                  >
+                    <ImageIcon className="w-4 h-4 text-[#0C439E]" /> फोटो सेवा
+                    (Photo Feed)
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/category/video"
+                    onClick={() => setSidebarOpen(false)}
+                    className="flex items-center gap-2 p-2 hover:bg-slate-100 rounded font-medium"
+                  >
+                    <Video className="w-4 h-4 text-[#0C439E]" /> भिडियो सेवा
+                    (Video Bulletin)
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/category/documents"
+                    onClick={() => setSidebarOpen(false)}
+                    className="flex items-center gap-2 p-2 hover:bg-slate-100 rounded font-medium"
+                  >
+                    <FileText className="w-4 h-4 text-[#0C439E]" /> आधिकारिक
+                    दस्तावेज
+                  </Link>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div className="p-4 bg-slate-900 text-slate-300 text-xs space-y-2 font-mukta">
+            <div className="flex items-center gap-2 text-slate-400">
+              <Phone className="w-3.5 h-3.5 text-amber-400" /> +९७७-०१-XXXXXXX
+            </div>
+            <div className="flex items-center gap-2 text-slate-400">
+              <Mail className="w-3.5 h-3.5 text-amber-400" />{" "}
+              news@newsagencynepal.com
             </div>
           </div>
         </div>
-      )}
+      </div>
     </>
   );
 }

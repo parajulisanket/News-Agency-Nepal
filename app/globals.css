@@ -22,6 +22,7 @@
   --font-sans: var(--font-mukta), "Mukta", sans-serif;
   --font-mukta: var(--font-mukta), "Mukta", sans-serif;
   --font-khand: var(--font-khand), "Khand", sans-serif;
+  --font-anek: var(--font-anek), sans-serif;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -45,7 +46,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: var(--font-khand);
+  font-family: var(--font-anek);
 }
 
 /* Utility to hide horizontal scrollbar on navbar categories */
