@@ -4,7 +4,7 @@ import CategoryLayoutOne from "./layouts/CategoryLayoutOne";
 import CategoryLayoutTwo from "./layouts/CategoryLayoutTwo";
 import CategoryLayoutLive from "./layouts/CategoryLayoutLive";
 import CategoryLayoutVideo from "./layouts/CategoryLayoutVideo";
-import CategoryLayoutBichar from "./layouts/CategroyLayoutBichar";
+import CategoryLayoutBichar from "./layouts/CategoryLayoutBichar";
 
 export interface Article {
   id: string | number;
@@ -22,7 +22,7 @@ interface CategorySectionProps {
   categorySlug: string;
   articles: Article[];
   layout?: "layout-1" | "layout-2" | "live" | "video" | "bichar";
-  limit?: number; 
+  limit?: number;
 }
 
 export default function CategorySection({
@@ -30,7 +30,7 @@ export default function CategorySection({
   categorySlug,
   articles,
   layout,
-  limit, 
+  limit,
 }: CategorySectionProps) {
   if (!articles || articles.length === 0) return null;
 

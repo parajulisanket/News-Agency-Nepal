@@ -1,3 +1,5 @@
+"use client";
+
 import CategorySection from "@/components/CategorySection";
 import SubscribeNotice from "@/components/SubscribeNotice";
 
