@@ -56,11 +56,11 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
         {/* LEFT COLUMN: Main Article Details (8 Cols on Desktop) */}
         <section className="lg:col-span-8 px-4 space-y-6">
           {/* Article Category & Title */}
-          <div className="space-y-3">
-            <span className="inline-block bg-[#66060C] text-white text-xs font-bold px-3 py-1 rounded uppercase font-khand">
+          <div className="space-y-0">
+            {/* <span className="inline-block bg-[#66060C] text-white text-xs font-bold px-3 py-1 rounded uppercase font-khand">
               {article.category || "समाचार"}
-            </span>
-            <div className="text-2xl md:text-[52px] font-bold text-slate-900 leading-snug ">
+            </span> */}
+            <div className="text-[24px] md:text-[48px] font-semibold font-anek text-slate-900 leading-snug">
               {article.title}
             </div>
             <div className="flex items-center gap-2 text-[16px] font-medium text-slate-600 border-b border-slate-200 pb-4 font-mukta">
@@ -90,7 +90,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
 
           {/* Main Content Body */}
           <article className="prose lg:prose-lg max-w-none text-slate-800 leading-relaxed space-y-4 font-mukta">
-            <div className="text-base md:text-lg text-slate-800 leading-loose whitespace-pre-line">
+            <div className="text-[22px] font-medium text-slate-800 leading-[35px] whitespace-pre-line">
               {article.content}
             </div>
           </article>
@@ -124,7 +124,7 @@ export default async function ArticlePage({ params }: ArticlePageProps) {
                     {index + 1}
                   </span>
                   <div className="space-y-1">
-                    <div className="text-[18px] font-semibold text-slate-800 group-hover:text-[#0C439E] transition line-clamp-2 leading-snug ">
+                    <div className="text-[17px] font-anek font-semibold text-slate-800 group-hover:text-[#0C439E] transition line-clamp-2  ">
                       {item.title}
                     </div>
                     <span className="text-[12px] text-slate-600 font-medium flex items-center gap-1">

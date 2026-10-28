@@ -46,7 +46,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: var(--font-anek);
+  font-family: var(--font-khand);
 }
 
 /* Utility to hide horizontal scrollbar on navbar categories */

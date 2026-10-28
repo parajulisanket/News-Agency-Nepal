@@ -59,12 +59,12 @@ export default function CategoryLayoutLive({
   const embedUrl = getEmbedUrl(activeLive.videoUrl);
 
   return (
-    <section className="max-w-7xl mx-auto px-4 py-6 space-y-4">
+    <section className="max-w-7xl mx-auto px-4 py-6 space-y-2">
       {/* 1. Header Row: News Title + Other Lives Switcher Button aligned Right in Mobile */}
-      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between ">
         <Link
           href={`/posts/${activeLive.id}`}
-          className="text-2xl md:text-4xl font-bold font-an text-slate-900 hover:text-[#0C439E] transition-colors line-clamp-2 leading-tight flex-1"
+          className="text-[20px] md:text-[30px] font-semibold font-anek text-slate-900 hover:text-[#0C439E] transition-colors line-clamp-2  flex-1"
         >
           {activeLive.title}
         </Link>

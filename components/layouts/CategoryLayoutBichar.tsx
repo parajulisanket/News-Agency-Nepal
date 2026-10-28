@@ -23,8 +23,8 @@ export default function CategoryLayoutBichar({
       {/* Category Section Header */}
       <div className="border-b-2 border-[#0C439E] pb-2 mb-6 flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <span className="w-1 h-6 bg-[#0C439E] inline-block -mt-2"></span>
-          <h1 className="text-[22px] md:text-[26px] font-semibold font-mukta text-[#0C439E] tracking-wide uppercase">
+          <span className="w-1 h-6 bg-[#0C439E] inline-block "></span>
+          <h1 className="text-[22px] md:text-[26px] font-semibold  text-[#0C439E] tracking-wide uppercase">
             {title}
           </h1>
         </div>
@@ -76,7 +76,7 @@ export default function CategoryLayoutBichar({
 
             {/* Title Text */}
             <div className="w-full flex-grow flex items-center justify-center px-2">
-              <div className="text-lg md:text-xl font-bold font-mukta text-slate-900 group-hover:text-[#0C439E] transition-colors line-clamp-3 leading-snug">
+              <div className="text-[17px] md:text-[19px] font-semibold font-anek text-slate-900 group-hover:text-[#0C439E] transition-colors line-clamp-3 ">
                 {article.title}
               </div>
             </div>

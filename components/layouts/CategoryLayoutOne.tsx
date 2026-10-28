@@ -20,7 +20,7 @@ export default function CategoryLayoutOne({
       {/* Category Section Header */}
       <div className="border-b-2 border-[#0C439E] pb-2 mb- flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <span className="w-1 h-6 bg-[#0C439E] inline-block -mt-2"></span>
+          <span className="w-1 h-6 bg-[#0C439E] inline-block"></span>
           <h1 className="text-[22px] md:text-[26px] font-semibold  text-[#0C439E] tracking-wide uppercase">
             {title}
           </h1>
@@ -65,7 +65,7 @@ export default function CategoryLayoutOne({
               />
             </div>
             <div className="p-4 flex-grow flex items-center">
-              <div className="text-lg md:text-xl font-bold  font-mukta text-slate-900 group-hover:text-[#0C439E] transition-colors line-clamp-2 leading-snug">
+              <div className="text-[17px] md:text-[19px] font-semibold  font-anek text-slate-900 group-hover:text-[#0C439E] transition-colors line-clamp-2 ">
                 {article.title}
               </div>
             </div>

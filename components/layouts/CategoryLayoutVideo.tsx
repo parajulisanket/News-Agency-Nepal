@@ -71,7 +71,7 @@ export default function CategoryLayoutVideo({
         {/* Header */}
         <div className="border-b-2 border-white pb-2 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <span className="w-1 h-6 bg-white inline-block -mt-2"></span>
+            <span className="w-1 h-6 bg-white inline-block"></span>
             <h1 className="text-[22px] md:text-[26px] font-semibold  tracking-wide uppercase">
               {title}
             </h1>
@@ -147,7 +147,7 @@ export default function CategoryLayoutVideo({
 
                   {/* Title directly INSIDE bottom of Video Overlay */}
                   <div className="absolute bottom-0 inset-x-0 p-4 md:p-6 z-10">
-                    <div className="text-lg md:text-2xl font-bold text-white group-hover:text-red-400 transition-colors line-clamp-2 leading-snug drop-shadow-md">
+                    <div className="text-[19px] md:text-[22px] font-semibold font-anek text-white group-hover:text-red-400 transition-colors line-clamp-2  drop-shadow-md">
                       {selectedArticle.title}
                     </div>
                   </div>
@@ -199,7 +199,7 @@ export default function CategoryLayoutVideo({
                   {/* Title Text Top Aligned */}
                   <div className="flex flex-col justify-start flex-grow pt-0.5">
                     <span
-                      className={`text-sm md:text-base font-bold line-clamp-2 leading-snug ${
+                      className={`text-sm md:text-[18px] font-medium font-anek line-clamp-2  ${
                         isSelected
                           ? "text-red-400"
                           : "text-slate-200 group-hover:text-white"

@@ -77,16 +77,13 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
     <main className="min-h-screen py-8 font-mukta">
       <div className="max-w-7xl mx-auto px-4">
         {/* Category Title Heading */}
-        <div className="border-b-2 border-[#0C439E] pb-3 mb-8 flex items-center justify-between">
+        <div className="border-b-2 border-[#0C439E] pb-2 mb-8 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <span className="w-1 h-6 bg-[#0C439E] inline-block -mt-2"></span>
-            <h1 className="text-[22px] md:text-[26px] font-semibold  text-[#0C439E] tracking-wide uppercase">
+            <span className="w-1 h-6 bg-[#0C439E] inline-block "></span>
+            <h1 className="text-[22px] md:text-[26px] font-bold  text-[#0C439E] tracking-wide uppercase">
               {title}
             </h1>
           </div>
-          <span className="text-sm font-mukta text-slate-500 font-medium">
-            कुल ६ समाचार
-          </span>
         </div>
 
         {/* 4 Cards Per Row Grid */}
@@ -110,7 +107,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
               {/* Card Details */}
               <div className="p-4 flex flex-col flex-grow justify-between">
                 <div>
-                  <div className="text-base md:text-lg font-bold text-slate-900 group-hover:text-[#0C439E] transition-colors line-clamp-2 leading-snug mb-3">
+                  <div className="text-[17px] md:text-[19px] font-semibold font-anek text-slate-900 group-hover:text-[#0C439E] transition-colors line-clamp-2  mb-2">
                     {post.title}
                   </div>
                 </div>
